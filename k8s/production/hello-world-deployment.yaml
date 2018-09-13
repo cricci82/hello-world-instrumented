@@ -14,10 +14,11 @@ spec:
     spec:
       containers:
       - name: hello-world 
-        image: quay.io/chris_ricci/hello-world-instrumented:v1
+        image: 172.30.1.1:5000/dj18/hello-world:latest
+        #image: quay.io/chris_ricci/hello-world-instrumented:v1
         imagePullPolicy: Always
         ports:
         - name: web
-          containerPort: 5000
+          containerPort: 8080
         - name: metrics
           containerPort: 8000

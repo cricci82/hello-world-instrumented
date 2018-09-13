@@ -1,0 +1,35 @@
+---
+openshift_cluster_content:
+- object: prometheus-operator
+  content:
+  - name: prometheus-operator
+    file: "{{ inventory_dir }}/../../.openshift/operators/prometheus.yml"
+- object: projectrequest
+  content:
+  - name: hello-world
+    file: "{{ inventory_dir }}/../../.openshift/projects/projects.yml"
+    action: create
+- object: prometheus-monitoring
+  content:
+  - name: prometheus-monitoring
+    file: "{{ inventory_dir }}/../../.openshift/monitoring/"
+    namespace: monitoring-demo-prod
+- object: imagestream
+  content:
+  - name: hello-world-app
+    template: "{{ inventory_dir }}/../../.openshift/templates/is.yml"
+    params: "{{ inventory_dir }}/../../.openshift/params/app-is"
+    namespace: monitoring-demo-cicd
+- object: builds
+  content:
+  - name: python-builder
+    template: "{{ inventory_dir }}/../../.openshift/templates/bc.yml"
+    namespace: monitoring-demo-cicd
+- object: deployments
+  content:
+  - name: jenkins
+    template: openshift//jenkins-ephemeral
+    namespace: monitoring-demo-cicd
+  - name: hello-world-app
+    template: "{{ inventory_dir }}/../../.openshift/templates/dc.yml"
+    namespace: monitoring-demo-prod
