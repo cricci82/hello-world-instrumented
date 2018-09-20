@@ -8,11 +8,14 @@ openshift.withCluster() {
 pipeline {
     agent any
     stages {
+        stage("SCM Checkout") {
+            checkout scm
+        }
         stage("Build image") {
             steps {
                 script {
                     openshift.withCluster() {
-                        buildSelector = openshift.selector('bc', APP_NAME).startBuild("--wait", "--follow")
+                        buildSelector = openshift.selector('bc', APP_NAME).startBuild("--from-dir .", "--wait", "--follow")
                         echo "Build complete: " + buildSelector.names()
                     }
                 }

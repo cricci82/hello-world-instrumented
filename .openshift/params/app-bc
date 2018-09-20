@@ -1,0 +1,3 @@
+APPLICATION_SOURCE_REPOSITORY_REF=demojam2018
+APPLICATION_SOURCE_REPOSITORY_URL=https://github.com/pabrahamsson/hello-world-instrumented
+PIPELINE_SCRIPT=Jenkinsfile-pa

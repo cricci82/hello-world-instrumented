@@ -24,6 +24,7 @@ openshift_cluster_content:
   content:
   - name: python-builder
     template: "{{ inventory_dir }}/../../.openshift/templates/bc.yml"
+    params: "{{ inventory_dir }}/../../.openshift/params/app-bc"
     namespace: monitoring-demo-cicd
 - object: deployments
   content:

@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: prometheus-hello-world
+spec:
+  host: ""
+  port:
+    targetPort: web
+  to:
+    kind: Service
+    name: prometheus-hello-world
+    weight: 100
