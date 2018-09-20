@@ -9,7 +9,11 @@ pipeline {
     agent any
     stages {
         stage("SCM Checkout") {
-            checkout scm
+            steps {
+                script {
+                    checkout scm
+                }
+            }
         }
         stage("Build image") {
             steps {
