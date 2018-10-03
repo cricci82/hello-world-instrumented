@@ -45,10 +45,6 @@ objects:
     source:
        binary: {}
        type: Binary
-#      git:
-#        ref: "${APPLICATION_SOURCE_REPOSITORY_REF}"
-#        uri: "${APPLICATION_SOURCE_REPOSITORY_URL}"
-#      type: Git
     strategy:
       sourceStrategy:
         from:
