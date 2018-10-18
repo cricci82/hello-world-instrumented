@@ -1,4 +1,4 @@
-apiVersion: monitoring.coreos.com/v1alpha1
+apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   name: prometheus-hello-world
@@ -8,7 +8,7 @@ spec:
   serviceAccountName: prometheus
   alerting:
     alertmanagers:
-    - namespace: monitoring-demo
+    - namespace: dj18
       name: alertmanager-helloworld
       port: web
   serviceMonitorSelector:

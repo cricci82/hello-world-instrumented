@@ -1,3 +1,6 @@
+flask/
+roles
+.idea/
 **/flask/
 **/.idea/
 **/target

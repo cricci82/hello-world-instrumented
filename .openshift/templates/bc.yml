@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: python-builder
+metadata:
+  annotations:
+    description: Python s2i build components
+    tags: python, s2i
+  name: "${APPLICATION_NAME}"
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: "${APPLICATION_NAME}"
+    name: "${APPLICATION_NAME}-pipeline"
+  spec:
+    source:
+      type: Git
+      git:
+        ref: "${APPLICATION_SOURCE_REPOSITORY_REF}"
+        uri: "${APPLICATION_SOURCE_REPOSITORY_URL}"
+    triggers:
+    - type: Github
+      github:
+        secret: "${GITHUB_WEBHOOK_SECRET}"
+    strategy:
+      type: JenkinsPipeline
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: "${PIPELINE_SCRIPT}"
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: "${APPLICATION_NAME}"
+    name: "${APPLICATION_NAME}"
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: "${APPLICATION_NAME}:latest"
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+       binary: {}
+       type: Binary
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: python:3.6
+          namespace: openshift
+      type: Source
+    triggers: []
+parameters:
+- description: The name of the application
+  name: APPLICATION_NAME
+  required: true
+  value: hello-world
+- description: Python application git branch/tag reference
+  name: APPLICATION_SOURCE_REPOSITORY_REF
+  value: master
+- description: Python application git source URL
+  name: APPLICATION_SOURCE_REPOSITORY_URL
+  required: true
+  value: https://github.com/cricci82/hello-world-instrumented
+- description: Path within Git project pointing to the pipeline run script
+  name: PIPELINE_SCRIPT
+  value: Jenkinsfile
+  required: true
+- description: GitHub trigger secret
+  from: '[a-zA-Z0-9]{8}'
+  generate: expression
+  name: GITHUB_WEBHOOK_SECRET
+  required: true
